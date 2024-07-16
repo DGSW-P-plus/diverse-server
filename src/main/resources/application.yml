@@ -17,6 +17,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  mvc:
+    static-path-pattern: /static/**
+
 server:
   shutdown: graceful
 
@@ -26,3 +30,4 @@ app:
     access-token-expiration: 86400000
     refresh-token-expiration: 172800000
     issuer: ${JWT_ISSUER}
+
