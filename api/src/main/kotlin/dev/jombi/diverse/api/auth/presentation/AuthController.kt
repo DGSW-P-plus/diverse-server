@@ -1,8 +1,8 @@
 package dev.jombi.diverse.api.auth.presentation
 
 import dev.jombi.diverse.api.auth.dto.request.LoginRequest
-import dev.jombi.diverse.api.auth.dto.request.SignUpRequest
 import dev.jombi.diverse.api.auth.dto.request.ReissueRequest
+import dev.jombi.diverse.api.auth.dto.request.SignUpRequest
 import dev.jombi.diverse.api.auth.dto.response.TokenResponse
 import dev.jombi.diverse.business.auth.service.AuthService
 import dev.jombi.diverse.common.response.ResponseData
@@ -30,9 +30,11 @@ class AuthController(
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
-    fun signup(@RequestBody @Valid request: SignUpRequest): ResponseEntity<ResponseData<Long>> {
-        val userId = authService.signup(request.nickname, request.username, request.password)
-        return ResponseData.ok(data = userId)
+    fun signup(@RequestBody @Valid request: SignUpRequest): ResponseEntity<ResponseData<TokenResponse>?> {
+        authService.signup(request.nickname, request.username, request.password)
+
+        val dto = authService.login(request.username, request.password)
+        return ResponseData.ok(data = TokenResponse(dto.accessToken, dto.refreshToken))
     }
 
     @Operation(summary = "토큰 재발급")

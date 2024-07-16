@@ -5,7 +5,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Entity
 
 @Entity(name = "tb_member")
-data class Member(
+class Member(
     @Column(unique = true, nullable = false)
     val username: String,
 
