@@ -16,8 +16,8 @@ data class Member(
     val name: String,
 
     @Column
-    val location: String,
+    val location: String? = null,
 
     @Column(length = 512)
-    val bio: String
+    val bio: String? = null
 ) : BaseIdTimeEntity()

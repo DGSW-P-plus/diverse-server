@@ -1,11 +1,13 @@
 spring:
   application.name: diverse
   datasource:
-    url: jdbc:mariadb://${DATASOURCE_URL}/${DATASOURCE_PATH}
+    url: jdbc:mariadb://${DATASOURCE_HOST}:${DATABASE_PORT}/${DATASOURCE_NAME}
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
-
+  data:
+    mongodb:
+      uri: mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_NAME}
   jpa:
     hibernate:
       ddl-auto: update

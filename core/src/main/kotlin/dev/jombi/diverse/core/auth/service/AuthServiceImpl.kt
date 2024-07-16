@@ -36,15 +36,18 @@ class AuthServiceImpl(
         if (memberRepository.existsByCredential(credential))
             throw CustomException(AuthExceptionDetails.USER_ALREADY_EXISTS, credential)
 
-        return memberRepository.save(Member(credential, passwordEncoder.encode(password), name))
-            .id.id
+        return memberRepository.save(Member(
+            credential = credential,
+            password = passwordEncoder.encode(password),
+            name = name
+        )).id.id
     }
 
     override fun refresh(refreshToken: String): TokenDto {
         val newAccessToken = tokenGenerator.refreshToNewToken(refreshToken)
         return TokenDto(
             newAccessToken,
-            refreshToken // no changes ;)
+            refreshToken
         )
     }
 }
