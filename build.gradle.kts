@@ -34,6 +34,11 @@ allprojects {
                 entry("jjwt-impl")
                 entry("jjwt-jackson")
             }
+            dependencySet("com.querydsl:5.1.0") {
+                entry("querydsl-core")
+                entry("querydsl-jpa")
+                entry("querydsl-apt")
+            }
         }
     }
 
@@ -45,8 +50,8 @@ allprojects {
         kotlin {
             jvmToolchain(17)
             compilerOptions {
-                languageVersion.set(KotlinVersion.KOTLIN_1_9)
-                apiVersion.set(KotlinVersion.KOTLIN_1_9)
+                languageVersion.set(KotlinVersion.KOTLIN_2_0)
+                apiVersion.set(KotlinVersion.KOTLIN_2_0)
                 freeCompilerArgs.addAll("-Xjsr305=strict")
             }
         }
