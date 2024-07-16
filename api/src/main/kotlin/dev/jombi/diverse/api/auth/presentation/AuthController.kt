@@ -24,14 +24,14 @@ class AuthController(
     @Operation(summary = "로그인")
     @PostMapping("/login")
     fun login(@RequestBody @Valid request: LoginRequest): ResponseEntity<ResponseData<TokenResponse>> {
-        val dto = authService.login(request.credential, request.password)
+        val dto = authService.login(request.username, request.password)
         return ResponseData.ok(data = TokenResponse(dto.accessToken, dto.refreshToken))
     }
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
     fun signup(@RequestBody @Valid request: SignUpRequest): ResponseEntity<ResponseData<Long>> {
-        val userId = authService.signup(request.name, request.credential, request.password)
+        val userId = authService.signup(request.nickname, request.username, request.password)
         return ResponseData.ok(data = userId)
     }
 

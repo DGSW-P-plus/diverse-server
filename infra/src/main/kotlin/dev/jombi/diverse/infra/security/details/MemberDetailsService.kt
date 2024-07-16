@@ -12,7 +12,7 @@ class MemberDetailsService(
     private val memberRepository: MemberJpaRepository
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
-        val member = memberRepository.findMemberByCredential(username)
+        val member = memberRepository.findByUsername(username)
             ?: throw UsernameNotFoundException(username)
 
         return MemberDetails(member)

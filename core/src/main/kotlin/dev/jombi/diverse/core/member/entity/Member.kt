@@ -7,13 +7,13 @@ import jakarta.persistence.Entity
 @Entity(name = "tb_member")
 data class Member(
     @Column(unique = true, nullable = false)
-    val credential: String,
+    val username: String,
 
     @Column(nullable = false)
     val password: String, // bcrypt
 
     @Column(nullable = false)
-    val name: String,
+    val nickname: String,
 
     @Column
     val location: String? = null,

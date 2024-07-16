@@ -36,7 +36,7 @@ class JwtTokenManager(
             .and()
             .signWith(jwtProperties.secretKey(), Jwts.SIG.HS512)
             .issuer(jwtProperties.issuer)
-            .subject(memberHolder.get().credential)
+            .subject(memberHolder.get().username)
             .issuedAt(date)
             .expiration(date.apply { time += getExpiration(type) })
             .compact()

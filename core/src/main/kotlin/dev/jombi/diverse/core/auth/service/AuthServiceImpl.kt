@@ -20,26 +20,26 @@ class AuthServiceImpl(
     private val passwordEncoder: PasswordEncoder,
     private val tokenGenerator: TokenGenerator,
 ) : AuthService {
-    override fun login(credential: String, password: String): TokenDto {
-        val token = UsernamePasswordAuthenticationToken(credential, password)
+    override fun login(username: String, password: String): TokenDto {
+        val token = UsernamePasswordAuthenticationToken(username, password)
 
         val auth = authenticationManager.authenticate(token)
         SecurityContextHolder.getContext().authentication = auth
 
-        val access = tokenGenerator.generateAccessToken()
-        val refresh = tokenGenerator.generateRefreshToken()
+        val accessToken = tokenGenerator.generateAccessToken()
+        val refreshToken = tokenGenerator.generateRefreshToken()
 
-        return TokenDto(access, refresh)
+        return TokenDto(accessToken, refreshToken)
     }
 
-    override fun signup(name: String, credential: String, password: String): Long {
-        if (memberRepository.existsByCredential(credential))
-            throw CustomException(AuthExceptionDetails.USER_ALREADY_EXISTS, credential)
+    override fun signup(username: String, password: String, nickname: String): Long {
+        if (memberRepository.existsByUsername(username))
+            throw CustomException(AuthExceptionDetails.USER_ALREADY_EXISTS, username)
 
         return memberRepository.save(Member(
-            credential = credential,
+            username = username,
             password = passwordEncoder.encode(password),
-            name = name
+            nickname = nickname
         )).id.id
     }
 

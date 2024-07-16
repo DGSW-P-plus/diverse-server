@@ -19,6 +19,6 @@ class MemberController(
     fun me(): ResponseEntity<ResponseData<MemberInfoResponse>> {
         val me = memberService.me()
 
-        return ResponseData.ok(data = MemberInfoResponse(credential = me.credential, name = me.name, location = me.location, bio = me.bio))
+        return ResponseData.ok(data = MemberInfoResponse(username = me.username, password = me.nickname, location = me.location, bio = me.bio))
     }
 }
