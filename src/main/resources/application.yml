@@ -1,13 +1,15 @@
 spring:
   application.name: diverse
   datasource:
-    url: jdbc:mariadb://${DATASOURCE_HOST}:${DATABASE_PORT}/${DATASOURCE_NAME}
+    url: jdbc:mariadb://${DATASOURCE_URL}/${DATASOURCE_NAME}
     username: ${DATASOURCE_USERNAME}
     password: ${DATASOURCE_PASSWORD}
     driver-class-name: org.mariadb.jdbc.Driver
   data:
     mongodb:
-      uri: mongodb://${MONGODB_HOST}:${MONGODB_PORT}/${MONGODB_NAME}
+      uri: mongodb://${MONGODB_URL}/${MONGODB_NAME}
+      username: ${MONGODB_USERNAME}
+      password: ${MONGODB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,4 +25,4 @@ app:
     secret: ${JWT_SECRET}
     access-token-expiration: 86400000
     refresh-token-expiration: 172800000
-    issuer: pplus
+    issuer: ${JWT_ISSUER}
