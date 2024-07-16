@@ -13,5 +13,4 @@ enum class GlobalExceptionDetail(override val message: String, override val stat
     ;
 
     override val code = name
-
 }
