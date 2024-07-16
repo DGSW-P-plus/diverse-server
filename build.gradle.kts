@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    val kotlinVersion = "1.9.24"
+    val kotlinVersion = "2.0.0"
     kotlin("jvm") version kotlinVersion
 
     kotlin("kapt") version kotlinVersion
@@ -53,8 +53,8 @@ allprojects {
         kotlin {
             jvmToolchain(17)
             compilerOptions {
-                languageVersion.set(KotlinVersion.KOTLIN_1_9)
-                apiVersion.set(KotlinVersion.KOTLIN_1_9)
+                languageVersion.set(KotlinVersion.KOTLIN_2_0)
+                apiVersion.set(KotlinVersion.KOTLIN_2_0)
                 freeCompilerArgs.addAll("-Xjsr305=strict")
             }
         }
