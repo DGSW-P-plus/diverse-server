@@ -1,4 +1,4 @@
-package dev.jombi.diverse.infra.exception
+package dev.jombi.diverse.infra.security.jwt.filter
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import dev.jombi.diverse.common.exception.CustomException
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 
 @Component
-class AuthExceptionHandleFilter(private val mapper: ObjectMapper) : OncePerRequestFilter() {
+class JwtExceptionFilter(private val mapper: ObjectMapper) : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,

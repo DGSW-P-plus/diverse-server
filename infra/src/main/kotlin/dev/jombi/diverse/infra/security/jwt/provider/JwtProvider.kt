@@ -1,4 +1,4 @@
-package dev.jombi.diverse.infra.security.providers
+package dev.jombi.diverse.infra.security.jwt.provider
 
 import dev.jombi.diverse.common.exception.CustomException
 import dev.jombi.diverse.common.exception.GlobalExceptionDetail

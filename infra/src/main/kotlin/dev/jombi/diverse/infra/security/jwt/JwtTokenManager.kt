@@ -5,6 +5,7 @@ import dev.jombi.diverse.common.exception.CustomException
 import dev.jombi.diverse.common.exception.GlobalExceptionDetail
 import dev.jombi.diverse.core.auth.exception.AuthExceptionDetails
 import dev.jombi.diverse.core.member.MemberHolder
+import dev.jombi.diverse.infra.security.jwt.enums.JwtType
 import io.jsonwebtoken.*
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
