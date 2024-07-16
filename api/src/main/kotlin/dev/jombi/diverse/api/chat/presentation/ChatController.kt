@@ -1,5 +1,6 @@
 package dev.jombi.diverse.api.chat.presentation
 
+import dev.jombi.diverse.api.chat.dto.request.ChatEnterRequest
 import dev.jombi.diverse.api.chat.dto.request.ChatMessageRequest
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -20,7 +21,7 @@ class ChatController(
 
     @Operation(summary = "채팅방 입장")
     @MessageMapping("/chat/enter")
-    fun enter(request: ChatMessageRequest) {
+    fun enter(request: ChatEnterRequest) {
         template.convertAndSend("/sub/chat/room/${request.roomId}", request)
     }
 }
