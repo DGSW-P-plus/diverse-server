@@ -1,13 +1,15 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    kotlin("jvm") version "2.0.0"
+    val kotlinVersion = "1.9.24"
+    kotlin("jvm") version kotlinVersion
+
+    kotlin("kapt") version kotlinVersion
+    kotlin("plugin.jpa") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
 
     id("org.springframework.boot") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.5"
-
-    kotlin("plugin.jpa") version "2.0.0"
-    kotlin("plugin.spring") version "2.0.0"
 }
 
 repositories {
@@ -34,6 +36,7 @@ allprojects {
                 entry("jjwt-impl")
                 entry("jjwt-jackson")
             }
+
             dependencySet("com.querydsl:5.1.0") {
                 entry("querydsl-core")
                 entry("querydsl-jpa")
@@ -50,8 +53,8 @@ allprojects {
         kotlin {
             jvmToolchain(17)
             compilerOptions {
-                languageVersion.set(KotlinVersion.KOTLIN_2_0)
-                apiVersion.set(KotlinVersion.KOTLIN_2_0)
+                languageVersion.set(KotlinVersion.KOTLIN_1_9)
+                apiVersion.set(KotlinVersion.KOTLIN_1_9)
                 freeCompilerArgs.addAll("-Xjsr305=strict")
             }
         }

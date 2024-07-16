@@ -4,9 +4,7 @@ dependencies {
     api("org.springframework.boot:spring-boot-starter-websocket")
     api("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
 
-    implementation("com.querydsl:querydsl-core")
-    implementation(group = "com.querydsl", name = "querydsl-jpa", classifier = "jakarta")
-    kapt("com.querydsl:querydsl-apt")
+    implementation("com.querydsl","querydsl-jpa", classifier = "jakarta")
 
     api("io.jsonwebtoken:jjwt-api")
     runtimeOnly("io.jsonwebtoken:jjwt-impl")
