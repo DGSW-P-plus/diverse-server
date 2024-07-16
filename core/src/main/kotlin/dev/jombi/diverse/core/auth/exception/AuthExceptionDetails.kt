@@ -11,5 +11,6 @@ enum class AuthExceptionDetails(override val message: String, override val statu
     TOKEN_TYPE_MISMATCH("토큰 타입이 잘못 되었음", HttpStatus.BAD_REQUEST),
     EXPIRED_TOKEN("토큰이 만료 되었음", HttpStatus.UNAUTHORIZED),
     ;
+
     override val code = name
 }

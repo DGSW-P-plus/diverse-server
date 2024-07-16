@@ -28,6 +28,7 @@ class SecurityConfig(
             .sessionManagement { it.disable() }
             .authorizeHttpRequests {
                 it
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .requestMatchers("/auth/**").anonymous() // .permitAll()
                     .anyRequest().authenticated()
             }

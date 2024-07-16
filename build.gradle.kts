@@ -74,18 +74,12 @@ allprojects {
 
 subprojects {
     dependencies {
-        /// SPRING BOOT
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.boot:spring-boot-starter-validation")
     }
 }
 
 dependencies {
-    /*
-    runtimeOnly("com.h2database:h2")
-
-    */
-
     implementation(project(":api"))
     implementation(project(":business"))
     implementation(project(":core"))

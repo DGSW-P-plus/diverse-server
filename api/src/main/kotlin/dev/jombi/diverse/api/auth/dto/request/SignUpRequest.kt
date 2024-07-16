@@ -2,7 +2,7 @@ package dev.jombi.diverse.api.auth.dto.request
 
 import jakarta.validation.constraints.NotBlank
 
-data class CreateMemberRequestDto(
+data class SignUpRequest(
     @field:NotBlank
     val credential: String,
 

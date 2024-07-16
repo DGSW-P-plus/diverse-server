@@ -16,7 +16,7 @@ import java.util.*
 @Component
 class JwtTokenManager(
     private val jwtProperties: JwtProperties,
-    private val memberContext: MemberHolder,
+    private val memberHolder: MemberHolder,
     private val memberDetailsService: UserDetailsService
 ) : TokenGenerator, TokenValidator {
     override fun generateAccessToken(): String {
@@ -27,7 +27,7 @@ class JwtTokenManager(
         return generateToken(JwtType.REFRESH_TOKEN)
     }
 
-    fun generateToken(type: JwtType): String {
+    private fun generateToken(type: JwtType): String {
         val date = Date()
         return Jwts.builder()
             .header()
@@ -35,16 +35,16 @@ class JwtTokenManager(
             .and()
             .signWith(jwtProperties.secretKey(), Jwts.SIG.HS512)
             .issuer(jwtProperties.issuer)
-            .subject(memberContext.get().credential)
+            .subject(memberHolder.get().credential)
             .issuedAt(date)
-            .expiration(date.apply { time += expireDuration(type) })
+            .expiration(date.apply { time += getExpiration(type) })
             .compact()
     }
 
-    fun expireDuration(type: JwtType): Long {
+    fun getExpiration(type: JwtType): Long {
         return when (type) {
-            JwtType.ACCESS_TOKEN -> jwtProperties.accessExpiresAfter
-            JwtType.REFRESH_TOKEN -> jwtProperties.refreshExpiresAfter
+            JwtType.ACCESS_TOKEN -> jwtProperties.accessTokenExpiration
+            JwtType.REFRESH_TOKEN -> jwtProperties.refreshTokenExpiration
         }
     }
 

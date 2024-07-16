@@ -19,6 +19,6 @@ server:
 app:
   jwt:
     secret: ${JWT_SECRET}
-    access_expires_after: 86400000
-    refresh_expires_after: 172800000
-    issuer: jombi
+    access-token-expiration: 86400000
+    refresh-token-expiration: 172800000
+    issuer: pplus

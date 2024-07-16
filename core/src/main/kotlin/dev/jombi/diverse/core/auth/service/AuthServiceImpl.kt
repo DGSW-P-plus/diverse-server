@@ -20,7 +20,7 @@ class AuthServiceImpl(
     private val passwordEncoder: PasswordEncoder,
     private val tokenGenerator: TokenGenerator,
 ) : AuthService {
-    override fun authenticate(credential: String, password: String): TokenDto {
+    override fun login(credential: String, password: String): TokenDto {
         val token = UsernamePasswordAuthenticationToken(credential, password)
 
         val auth = authenticationManager.authenticate(token)
@@ -32,7 +32,7 @@ class AuthServiceImpl(
         return TokenDto(access, refresh)
     }
 
-    override fun createNewMember(name: String, credential: String, password: String): Long {
+    override fun signup(name: String, credential: String, password: String): Long {
         if (memberRepository.existsByCredential(credential))
             throw CustomException(AuthExceptionDetails.USER_ALREADY_EXISTS, credential)
 
@@ -40,7 +40,7 @@ class AuthServiceImpl(
             .id.id
     }
 
-    override fun getNewToken(refreshToken: String): TokenDto {
+    override fun refresh(refreshToken: String): TokenDto {
         val newAccessToken = tokenGenerator.refreshToNewToken(refreshToken)
         return TokenDto(
             newAccessToken,

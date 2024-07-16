@@ -1,6 +1,6 @@
 package dev.jombi.diverse.api.auth.dto.response
 
-data class TokenResponseDto(
+data class TokenResponse(
     val accessToken: String,
     val refreshToken: String
 )
