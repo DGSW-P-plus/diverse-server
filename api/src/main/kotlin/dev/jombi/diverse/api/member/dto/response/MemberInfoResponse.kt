@@ -1,5 +1,5 @@
 package dev.jombi.diverse.api.member.dto.response
 
-data class MemberInfoResponseDto(
+data class MemberInfoResponse(
     val name: String
 )
