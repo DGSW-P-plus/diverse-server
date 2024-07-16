@@ -31,7 +31,7 @@ class AuthController(
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
     fun signup(@RequestBody @Valid request: SignUpRequest): ResponseEntity<ResponseData<TokenResponse>?> {
-        authService.signup(request.nickname, request.username, request.password)
+        authService.signup(request.username, request.password, request.nickname)
 
         val dto = authService.login(request.username, request.password)
         return ResponseData.ok(data = TokenResponse(dto.accessToken, dto.refreshToken))
