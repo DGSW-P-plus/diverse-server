@@ -8,6 +8,8 @@ plugins {
     kotlin("plugin.jpa") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
 
+    application
+
     id("org.springframework.boot") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.5"
 }
@@ -47,6 +49,10 @@ allprojects {
 
     repositories {
         mavenCentral()
+    }
+
+    springBoot {
+        mainClass.set("dev.jombi.diverse.DiverseApplicationKt")
     }
 
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
