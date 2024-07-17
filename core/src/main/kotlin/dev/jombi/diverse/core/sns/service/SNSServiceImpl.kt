@@ -15,15 +15,17 @@ class SNSServiceImpl(
 ) : SNSService {
     override fun getMySNSList(): List<SNSDto> {
         val me = memberHolder.get()
-        val m = snsJpaRepository.getAllByMember(me)
-        return m.map(snsEntityMapper::mapToDto)
+        val ent = snsJpaRepository.getAllByMember(me)
+        return ent.map(snsEntityMapper::mapToDto)
     }
 
     override fun addSNS(sns: SNSDto) {
-        TODO("Not yet implemented")
+        val me = memberHolder.get()
+
+//        snsJpaRepository.existsByMemberAndType(sns.type)
     }
 
     override fun removeSNS(sns: SNSDto) {
-        TODO("Not yet implemented")
+
     }
 }
