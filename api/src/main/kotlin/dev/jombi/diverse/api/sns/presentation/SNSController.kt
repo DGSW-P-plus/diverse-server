@@ -1,6 +1,7 @@
 package dev.jombi.diverse.api.sns.presentation
 
 import dev.jombi.diverse.api.sns.dto.SNSDtoMapper
+import dev.jombi.diverse.api.sns.dto.request.SNSModifyAllRequest
 import dev.jombi.diverse.api.sns.dto.request.SNSModifyRequest
 import dev.jombi.diverse.api.sns.dto.response.SNSListResponse
 import dev.jombi.diverse.business.sns.service.SNSService
@@ -28,6 +29,15 @@ class SNSController(
     @PatchMapping("/me")
     fun modifyMySNS(@RequestBody request: SNSModifyRequest): ResponseEntity<ResponseEmpty> {
         snsService.addSNS(snsDtoMapper.convertToDto(request))
+        return ResponseEmpty.ok()
+    }
+
+    @PatchMapping("/all")
+    fun modifySNSAll(@RequestBody request: SNSModifyAllRequest): ResponseEntity<ResponseEmpty> {
+        for (sn in request.sns) {
+            snsService.addSNS(snsDtoMapper.convertToDto(sn))
+        }
+
         return ResponseEmpty.ok()
     }
 }
