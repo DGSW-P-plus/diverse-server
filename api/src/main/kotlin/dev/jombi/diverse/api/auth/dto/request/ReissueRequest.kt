@@ -1,5 +1,7 @@
 package dev.jombi.diverse.api.auth.dto.request
 
-data class ReissueRequest(
+import com.fasterxml.jackson.annotation.JsonCreator
+
+data class ReissueRequest @JsonCreator constructor(
     val refreshToken: String
 )
