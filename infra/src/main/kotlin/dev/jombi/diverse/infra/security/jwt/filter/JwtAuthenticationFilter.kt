@@ -17,11 +17,7 @@ class JwtAuthenticationFilter(@Lazy private val authManager: AuthenticationManag
         response: HttpServletResponse,
         chain: FilterChain
     ) {
-        val jwt = request.getHeader("Authorization")?.let {
-            if (it.startsWith("Bearer "))
-                it.substring(7)
-            else it
-        }
+        val jwt = request.getHeader("Authorization")?.removePrefix("Bearer ")
 
         if (!jwt.isNullOrBlank()) {
             val auth = authManager.authenticate(JwtAuthToken(jwt))

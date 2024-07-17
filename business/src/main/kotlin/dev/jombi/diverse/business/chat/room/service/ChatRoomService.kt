@@ -7,5 +7,4 @@ interface ChatRoomService {
     fun createRoom(targetId: Long): UUID
     fun getRoom(roomId: UUID): ChatRoomDto
     fun getRooms(): List<ChatRoomDto>
-    fun leaveRoom(roomId: UUID)
 }
