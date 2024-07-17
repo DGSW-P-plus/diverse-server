@@ -42,6 +42,7 @@ class RabbitMQConfig(
         port = rabbitMQProperties.port
         username = rabbitMQProperties.username
         setPassword(rabbitMQProperties.password)
+        virtualHost = "/"
     }
 
     @Bean
