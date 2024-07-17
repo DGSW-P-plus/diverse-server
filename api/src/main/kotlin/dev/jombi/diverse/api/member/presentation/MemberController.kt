@@ -3,6 +3,7 @@ package dev.jombi.diverse.api.member.presentation
 import dev.jombi.diverse.api.member.dto.MemberDtoMapper
 import dev.jombi.diverse.api.member.dto.request.MemberEditOptionalRequest
 import dev.jombi.diverse.api.member.dto.response.MemberInfoResponse
+import dev.jombi.diverse.business.member.dto.HasNextMemberDto
 import dev.jombi.diverse.business.member.service.MemberService
 import dev.jombi.diverse.common.response.ResponseData
 import dev.jombi.diverse.common.response.ResponseEmpty
@@ -34,7 +35,7 @@ class MemberController(
     }
 
     @GetMapping("/find")
-    fun findFriend(@PageableDefault pageRequest: Pageable) {
-        memberService.findWithPagination(pageRequest)
+    fun findFriend(@PageableDefault pageRequest: Pageable): ResponseEntity<ResponseData<HasNextMemberDto>> {
+        return ResponseData.ok(data = memberService.findWithPagination(pageRequest))
     }
 }

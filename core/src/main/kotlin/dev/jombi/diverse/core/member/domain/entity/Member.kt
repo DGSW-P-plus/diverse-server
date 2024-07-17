@@ -2,8 +2,7 @@ package dev.jombi.diverse.core.member.domain.entity
 
 import dev.jombi.diverse.core.common.entity.BaseIdTimeEntity
 import dev.jombi.diverse.core.common.entity.FetchableId
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
+import jakarta.persistence.*
 
 @Entity(name = "tb_member")
 class Member(

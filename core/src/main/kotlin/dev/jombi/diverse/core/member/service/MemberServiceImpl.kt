@@ -1,5 +1,6 @@
 package dev.jombi.diverse.core.member.service
 
+import dev.jombi.diverse.business.member.dto.HasNextMemberDto
 import dev.jombi.diverse.business.member.dto.MemberDto
 import dev.jombi.diverse.business.member.dto.MemberOptionalDto
 import dev.jombi.diverse.business.member.service.MemberService
@@ -10,7 +11,6 @@ import dev.jombi.diverse.core.member.repository.MemberQueryRepository
 import dev.jombi.diverse.core.sns.mapper.SNSEntityMapper
 import dev.jombi.diverse.core.sns.repository.MemberSNSJpaRepository
 import org.springframework.data.domain.Pageable
-import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -19,12 +19,24 @@ import org.springframework.transaction.annotation.Transactional
 class MemberServiceImpl(
     private val memberHolder: MemberHolder,
     private val memberJpaRepository: MemberJpaRepository,
+    private val memberQueryRepository: MemberQueryRepository,
     private val genderQueryRepository: MemberGenderQueryRepository,
-    private val memberQueryRepository: MemberQueryRepository
+    private val memberSNSJpaRepository: MemberSNSJpaRepository,
+    private val snsEntityMapper: SNSEntityMapper,
 ) : MemberService {
     override fun me(): MemberDto {
         val member = memberHolder.get()
-        return memberQueryRepository.findOneWithMember(member)
+        val genders = genderQueryRepository.findGenderByUserId(member.id.id)
+        val sns = memberSNSJpaRepository.getAllByMember(member)
+        return MemberDto(
+            id = member.id.id,
+            username = member.username,
+            nickname = member.nickname,
+            location = member.location,
+            bio = member.bio,
+            genders.map { it.mapDto() },
+            sns.map { snsEntityMapper.mapToDto(it) }
+        )
     }
 
     @Transactional(rollbackFor = [Exception::class])
@@ -37,9 +49,25 @@ class MemberServiceImpl(
         memberJpaRepository.save(holding)
     }
 
-    override fun findWithPagination(info: Pageable): Slice<MemberDto> {
+    override fun findWithPagination(info: Pageable): HasNextMemberDto {
         val member = memberHolder.get()
-        val genders = genderQueryRepository.findGenderByUserId(member.id.id)
-        return memberQueryRepository.findAllWithSortingAndPagination(info, genders)
+        val members = memberQueryRepository.justPaginationIgnoreSelf(info, member)
+
+        val slice = members.map {
+            val genders = genderQueryRepository.findGenderByUserId(it.id.id)
+            val sns = memberSNSJpaRepository.getAllByMember(it)
+
+            MemberDto(
+                it.id.id,
+                it.username,
+                it.nickname,
+                it.location,
+                it.bio,
+                genders.map { it.mapDto() },
+                sns.map(snsEntityMapper::mapToDto)
+            )
+        }
+
+        return HasNextMemberDto(slice.hasNext(), slice.toList())
     }
 }
