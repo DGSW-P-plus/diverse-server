@@ -13,7 +13,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+#    show-sql: true
     properties:
       hibernate:
         format_sql: true
@@ -35,4 +35,6 @@ app:
     access-token-expiration: 86400000
     refresh-token-expiration: 172800000
     issuer: ${JWT_ISSUER}
-
+logging:
+  level:
+    root: debug

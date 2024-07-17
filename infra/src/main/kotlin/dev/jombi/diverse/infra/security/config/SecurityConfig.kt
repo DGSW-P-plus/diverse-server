@@ -26,9 +26,6 @@ class SecurityConfig(
             .csrf { it.disable() }
             .cors { it.configurationSource(corsConfigurationSource()) }
             .sessionManagement { it.disable() }
-            .exceptionHandling {
-
-            }
             .authorizeHttpRequests {
                 it
                     .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
@@ -37,6 +34,7 @@ class SecurityConfig(
                     .requestMatchers("/sub/**").permitAll()
                     .requestMatchers("/pub/**").permitAll()
                     .requestMatchers("/static/**").permitAll()
+//                    .requestMatchers("/**").permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterAt(authFilter, UsernamePasswordAuthenticationFilter::class.java)

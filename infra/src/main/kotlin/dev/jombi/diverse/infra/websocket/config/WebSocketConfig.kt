@@ -24,6 +24,9 @@ class WebSocketConfig(
     }
 
     override fun configureMessageBroker(registry: MessageBrokerRegistry) {
+//        registry.enableSimpleBroker("/sub")
+//        registry.setApplicationDestinationPrefixes("/pub")
+
         registry.setPathMatcher(AntPathMatcher("."))
         registry.setApplicationDestinationPrefixes("/pub")
         registry.enableStompBrokerRelay("/queue", "/topic", "/exchange", "/amq/queue")
