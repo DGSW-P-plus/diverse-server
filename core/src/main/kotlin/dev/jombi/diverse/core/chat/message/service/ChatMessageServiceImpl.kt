@@ -11,9 +11,7 @@ import dev.jombi.diverse.core.chat.message.repository.ChatMessageRepository
 import dev.jombi.diverse.core.chat.room.exception.ChatRoomExceptionDetails
 import dev.jombi.diverse.core.chat.room.repository.ChatRoomRepository
 import dev.jombi.diverse.core.member.MemberHolder
-import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.data.repository.findByIdOrNull
-import org.springframework.messaging.simp.SimpMessageSendingOperations
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -46,12 +44,7 @@ class ChatMessageServiceImpl(
             userId = userId
         )
 
-        println("MONGO 1")
-
         val saved = chatMessageRepository.save(message)
-
-        println("MONGO 2")
-
         return ChatMessageDto(
             roomId = saved.roomId,
             message = saved.message,
