@@ -5,8 +5,6 @@ import dev.jombi.diverse.business.chat.message.dto.SendMessageDto
 import dev.jombi.diverse.business.chat.message.service.ChatMessageService
 import dev.jombi.diverse.common.response.ResponseData
 import jakarta.validation.Valid
-import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.messaging.simp.SimpAttributesContextHolder
@@ -24,7 +22,7 @@ class ChatMessageController(
     @GetMapping
     fun getMessages(@RequestParam roomId: UUID) = ResponseData.ok(data = chatMessageService.getMessages(roomId))
 
-    @MessageMapping("/chat/sendMessage")
+    @MessageMapping("chat.sendMessage")
     fun sendMessage(@Payload @Valid payload: SendMessagePayload) {
         val userId = SimpAttributesContextHolder.currentAttributes().getAttribute("userId") as Long
 

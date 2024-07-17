@@ -1,13 +1,10 @@
 package dev.jombi.diverse.infra.websocket.config
 
-import dev.jombi.diverse.infra.rabbitmq.properties.RabbitMQProperties
 import dev.jombi.diverse.infra.websocket.MessageBrokerRegistryAdapter
 import dev.jombi.diverse.infra.websocket.handler.StompHandler
-import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.config.ChannelRegistration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
-import org.springframework.util.AntPathMatcher
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
@@ -22,7 +19,6 @@ class WebSocketConfig(
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws")
             .setAllowedOriginPatterns("*")
-//            .withSockJS()
     }
 
     override fun configureMessageBroker(registry: MessageBrokerRegistry) {
