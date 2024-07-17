@@ -6,8 +6,11 @@ import dev.jombi.diverse.business.member.service.MemberService
 import dev.jombi.diverse.core.gender.repository.MemberGenderQueryRepository
 import dev.jombi.diverse.core.member.MemberHolder
 import dev.jombi.diverse.core.member.repository.MemberJpaRepository
+import dev.jombi.diverse.core.member.repository.MemberQueryRepository
 import dev.jombi.diverse.core.sns.mapper.SNSEntityMapper
 import dev.jombi.diverse.core.sns.repository.MemberSNSJpaRepository
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Slice
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,22 +20,11 @@ class MemberServiceImpl(
     private val memberHolder: MemberHolder,
     private val memberJpaRepository: MemberJpaRepository,
     private val genderQueryRepository: MemberGenderQueryRepository,
-    private val memberSNSJpaRepository: MemberSNSJpaRepository,
-    private val snsEntityMapper: SNSEntityMapper,
+    private val memberQueryRepository: MemberQueryRepository
 ) : MemberService {
     override fun me(): MemberDto {
         val member = memberHolder.get()
-        val genders = genderQueryRepository.findGenderByUserId(member.id.id)
-        val sns = memberSNSJpaRepository.getAllByMember(member)
-        return MemberDto(
-            id = member.id.id,
-            username = member.username,
-            nickname = member.nickname,
-            location = member.location,
-            bio = member.bio,
-            genders.map { it.mapDto() },
-            sns.map { snsEntityMapper.mapToDto(it) }
-        )
+        return memberQueryRepository.findOneWithMember(member)
     }
 
     @Transactional(rollbackFor = [Exception::class])
@@ -43,5 +35,11 @@ class MemberServiceImpl(
         holding.bio = info.bio ?: holding.bio
 
         memberJpaRepository.save(holding)
+    }
+
+    override fun findWithPagination(info: Pageable): Slice<MemberDto> {
+        val member = memberHolder.get()
+        val genders = genderQueryRepository.findGenderByUserId(member.id.id)
+        return memberQueryRepository.findAllWithSortingAndPagination(info, genders)
     }
 }
