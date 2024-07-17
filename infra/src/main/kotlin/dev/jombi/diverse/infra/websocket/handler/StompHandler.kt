@@ -23,7 +23,7 @@ class StompHandler(
 
         when (accessor.messageType) {
             SimpMessageType.CONNECT -> {
-                val token = accessor.getFirstNativeHeader("Authorization") ?: return null
+                val token = accessor.getFirstNativeHeader("Authorization")?.removePrefix("Bearer ") ?: return null
                 val auth = authManager.authenticate(JwtAuthToken(token))
                 val member = (auth.principal as MemberDetails).member
 
