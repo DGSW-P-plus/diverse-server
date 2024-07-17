@@ -19,8 +19,9 @@ class ChatRoomMapper(
         id = entity.id!!,
         member1 = entity.member1.id.id,
         member2 = entity.member2.id.id,
-        lastMessage = chatMessageRepository.findAllByRoomId(entity.id).sortedWith { o1, o2 -> o1.createdAt!!.compareTo(o2.createdAt) }
-            .last().message
+        lastMessage = chatMessageRepository.findAllByRoomId(entity.id).takeIf { it.isNotEmpty() }?.sortedWith { o1, o2 -> o1.createdAt!!.compareTo(o2.createdAt) }
+            ?.last()?.message
+            ?: ""
     )
 
     override fun toEntity(domain: ChatRoomDto) = ChatRoomEntity(
