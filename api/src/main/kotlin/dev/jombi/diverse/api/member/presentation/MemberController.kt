@@ -29,7 +29,7 @@ class MemberController(
         return ResponseData.ok(data = memberDtoMapper.convertToResponse(me))
     }
 
-    @PatchMapping("me")
+    @PatchMapping("/me")
     fun editMyInfo(@RequestBody @Valid request: MemberEditOptionalRequest): ResponseEntity<ResponseEmpty> {
         memberService.editMyInfo(memberDtoMapper.convertToDto(request))
         return ResponseEmpty.ok()
