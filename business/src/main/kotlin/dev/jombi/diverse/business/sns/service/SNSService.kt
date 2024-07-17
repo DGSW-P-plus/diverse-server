@@ -6,6 +6,4 @@ interface SNSService {
     fun getMySNSList(): List<SNSDto>
 
     fun addSNS(sns: SNSDto)
-
-    fun removeSNS(sns: SNSDto)
 }

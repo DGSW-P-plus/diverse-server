@@ -3,6 +3,7 @@ package dev.jombi.diverse.core.sns.service
 import dev.jombi.diverse.business.sns.dto.SNSDto
 import dev.jombi.diverse.business.sns.service.SNSService
 import dev.jombi.diverse.core.member.MemberHolder
+import dev.jombi.diverse.core.sns.domain.consts.SNSType
 import dev.jombi.diverse.core.sns.mapper.SNSEntityMapper
 import dev.jombi.diverse.core.sns.repository.MemberSNSJpaRepository
 import org.springframework.stereotype.Service
@@ -22,10 +23,13 @@ class SNSServiceImpl(
     override fun addSNS(sns: SNSDto) {
         val me = memberHolder.get()
 
-//        snsJpaRepository.existsByMemberAndType(sns.type)
-    }
+        snsJpaRepository.getByMemberAndType(me, SNSType.valueOf(sns.type))?.let {
+            snsJpaRepository.delete(it)
+        }
 
-    override fun removeSNS(sns: SNSDto) {
-
+        if (sns.url != null) {
+            val ent = snsEntityMapper.mapToEntity(sns, me)
+            snsJpaRepository.save(ent)
+        }
     }
 }

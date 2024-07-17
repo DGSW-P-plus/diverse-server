@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface MemberSNSJpaRepository : JpaRepository<MemberSNS, Long> {
     fun getAllByMember(member: Member): List<MemberSNS>
-    fun existsByMemberAndType(member: Member, type: SNSType): Boolean
+    fun getByMemberAndType(member: Member, type: SNSType): MemberSNS?
 }

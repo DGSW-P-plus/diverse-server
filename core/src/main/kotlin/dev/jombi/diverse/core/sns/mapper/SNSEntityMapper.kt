@@ -1,7 +1,6 @@
 package dev.jombi.diverse.core.sns.mapper
 
 import dev.jombi.diverse.business.sns.dto.SNSDto
-import dev.jombi.diverse.core.common.entity.BaseIdEntity
 import dev.jombi.diverse.core.member.domain.entity.Member
 import dev.jombi.diverse.core.sns.domain.entity.MemberSNS
 import org.mapstruct.Mapper
@@ -18,9 +17,8 @@ interface SNSEntityMapper {
         fun snsEntityMapper(): SNSEntityMapper = Mappers.getMapper(SNSEntityMapper::class.java)
     }
 
-//    @Mapping(target = ".", expression = "java(dev.jombi.diverse.core.sns.domain.consts.SNSType.valueOf(dto.type))")
+    @Mapping(target = ".", source = "dto")
     fun mapToEntity(dto: SNSDto, member: Member): MemberSNS
 
-//    @Mapping(target = "type", expression = "java(dto.type.name)")
     fun mapToDto(dto: MemberSNS): SNSDto
 }
