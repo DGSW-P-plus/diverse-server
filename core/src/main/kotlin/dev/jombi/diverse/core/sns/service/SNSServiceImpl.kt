@@ -16,8 +16,7 @@ class SNSServiceImpl(
     override fun getMySNSList(): List<SNSDto> {
         val me = memberHolder.get()
         val m = snsJpaRepository.getAllByMember(me)
-//        snsEntityMapper.mapToEntity(m)
-        TODO()
+        return m.map(snsEntityMapper::mapToDto)
     }
 
     override fun addSNS(sns: SNSDto) {
