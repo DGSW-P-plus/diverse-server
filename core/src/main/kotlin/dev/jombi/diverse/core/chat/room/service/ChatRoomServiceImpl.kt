@@ -1,8 +1,10 @@
 package dev.jombi.diverse.core.chat.room.service
 
+import dev.jombi.diverse.business.chat.message.dto.ChatMessageDto
 import dev.jombi.diverse.business.chat.room.service.ChatRoomService
 import dev.jombi.diverse.common.exception.CustomException
 import dev.jombi.diverse.business.chat.room.dto.ChatRoomDto
+import dev.jombi.diverse.core.chat.message.repository.ChatMessageRepository
 import dev.jombi.diverse.core.chat.room.domain.entity.ChatRoomEntity
 import dev.jombi.diverse.core.chat.room.exception.ChatRoomExceptionDetails
 import dev.jombi.diverse.core.chat.room.mapper.ChatRoomMapper
@@ -21,7 +23,8 @@ class ChatRoomServiceImpl(
     private val memberHolder: MemberHolder,
     private val chatRoomRepository: ChatRoomRepository,
     private val chatRoomMapper: ChatRoomMapper,
-    private val memberJpaRepository: MemberJpaRepository
+    private val memberJpaRepository: MemberJpaRepository,
+    private val chatMessageRepository: ChatMessageRepository
 ): ChatRoomService {
     @Transactional(readOnly = true)
     override fun getRooms(): List<ChatRoomDto> {
@@ -30,10 +33,6 @@ class ChatRoomServiceImpl(
         val rooms = chatRoomRepository.findAllByMember1OrMember2(member, member)
 
         return rooms.map { chatRoomMapper.toDomain(it) }
-    }
-
-    override fun leaveRoom(roomId: UUID) {
-
     }
 
     @Transactional(readOnly = true)

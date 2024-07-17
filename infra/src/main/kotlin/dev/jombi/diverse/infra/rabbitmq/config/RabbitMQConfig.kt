@@ -6,16 +6,19 @@ import org.springframework.amqp.core.Queue
 import org.springframework.amqp.core.TopicExchange
 import org.springframework.amqp.rabbit.annotation.EnableRabbit
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory
+import org.springframework.amqp.rabbit.core.RabbitAdmin
 import org.springframework.amqp.rabbit.core.RabbitTemplate
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter
+import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.springframework.context.ApplicationListener
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+
 
 @Configuration
 @EnableRabbit
 class RabbitMQConfig(
     private val rabbitMQProperties: RabbitMQProperties
-) {
+) : ApplicationListener<ApplicationReadyEvent> {
     companion object {
         const val CHAT_QUEUE_NAME = "chat.queue"
         const val CHAT_EXCHANGE_NAME = "chat.exchange"
@@ -33,7 +36,15 @@ class RabbitMQConfig(
 
     @Bean
     fun rabbitTemplate() = RabbitTemplate(connectionFactory()).apply {
-        messageConverter = jsonMessageConverter()
+        setExchange(CHAT_EXCHANGE_NAME)
+        routingKey = ROUTING_KEY
+    }
+
+    @Bean
+    fun rabbitAdmin(): RabbitAdmin = RabbitAdmin(connectionFactory()).apply {
+        declareExchange(exchange())
+        declareQueue(queue())
+        declareBinding(binding(queue(), exchange()))
     }
 
     @Bean
@@ -45,6 +56,7 @@ class RabbitMQConfig(
         virtualHost = "/"
     }
 
-    @Bean
-    fun jsonMessageConverter() = Jackson2JsonMessageConverter()
+    override fun onApplicationEvent(event: ApplicationReadyEvent) {
+        rabbitAdmin().initialize()
+    }
 }

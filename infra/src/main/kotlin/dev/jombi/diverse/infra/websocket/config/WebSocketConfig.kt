@@ -1,11 +1,10 @@
 package dev.jombi.diverse.infra.websocket.config
 
-import dev.jombi.diverse.infra.rabbitmq.properties.RabbitMQProperties
+import dev.jombi.diverse.infra.websocket.MessageBrokerRegistryAdapter
 import dev.jombi.diverse.infra.websocket.handler.StompHandler
 import org.springframework.context.annotation.Configuration
 import org.springframework.messaging.simp.config.ChannelRegistration
 import org.springframework.messaging.simp.config.MessageBrokerRegistry
-import org.springframework.util.AntPathMatcher
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer
@@ -14,22 +13,16 @@ import org.springframework.web.socket.config.annotation.WebSocketTransportRegist
 @Configuration
 @EnableWebSocketMessageBroker
 class WebSocketConfig(
-    private val rabbitMQProperties: RabbitMQProperties,
-    private val stompHandler: StompHandler
+    private val stompHandler: StompHandler,
+    private val messageBrokerRegistryAdapter: MessageBrokerRegistryAdapter
 ) : WebSocketMessageBrokerConfigurer {
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/ws")
             .setAllowedOriginPatterns("*")
-//            .withSockJS()
     }
 
     override fun configureMessageBroker(registry: MessageBrokerRegistry) {
-        registry.setPathMatcher(AntPathMatcher("."))
-        registry.setApplicationDestinationPrefixes("/pub")
-        registry.enableStompBrokerRelay("/queue", "/topic", "/exchange", "/amq/queue")
-            .setRelayHost(rabbitMQProperties.host)
-            .setRelayPort(rabbitMQProperties.port)
-            .setVirtualHost("/")
+        messageBrokerRegistryAdapter.set(registry)
     }
 
     override fun configureClientInboundChannel(registration: ChannelRegistration) {
