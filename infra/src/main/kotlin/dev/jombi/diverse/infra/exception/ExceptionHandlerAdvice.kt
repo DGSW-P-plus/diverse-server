@@ -13,6 +13,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.servlet.NoHandlerFoundException
 import org.springframework.web.servlet.resource.NoResourceFoundException
 
 
@@ -55,6 +56,13 @@ class ExceptionHandlerAdvice {
             GlobalExceptionDetail.UNSUPPORTED_MEDIA_TYPE,
             e.contentType,
             e.supportedMediaTypes.takeIf { it.isNotEmpty() }?.joinToString("', '") ?: "N/A"
+        )
+
+    @ExceptionHandler(NoHandlerFoundException::class)
+    fun noHandlerFoundException(e: NoHandlerFoundException) =
+        ResponseError.of(
+            GlobalExceptionDetail.NO_HANDLER_FOUND,
+            e.requestURL
         )
 
     @ExceptionHandler
