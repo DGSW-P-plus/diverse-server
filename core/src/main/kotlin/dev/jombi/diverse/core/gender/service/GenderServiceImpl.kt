@@ -17,11 +17,11 @@ class GenderServiceImpl(
     private val memberGenderQueryRepository: MemberGenderQueryRepository,
     private val holder: MemberHolder
 ) : GenderService {
-    override fun all(): List<GenderDto> {
+    override fun getGenders(): List<GenderDto> {
         return genderJpaRepository.findAll().map { it.mapDto() }
     }
 
-    override fun my(): List<GenderDto> {
+    override fun myGenders(): List<GenderDto> {
         return memberGenderQueryRepository.findGenderByUserId(holder.get().id.id).map { it.mapDto() }
     }
 

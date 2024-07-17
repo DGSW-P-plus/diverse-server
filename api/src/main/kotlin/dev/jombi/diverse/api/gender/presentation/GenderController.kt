@@ -20,19 +20,19 @@ class GenderController(
 ) {
     @GetMapping
     fun getAll(): ResponseEntity<ResponseData<GenderListResponse>> {
-        val all = genderService.all()
+        val all = genderService.getGenders()
         return ResponseData.ok(data = GenderListResponse(all))
     }
 
     @GetMapping("/my")
     fun getMy(): ResponseEntity<ResponseData<GenderListResponse>> {
-        val my = genderService.my()
+        val my = genderService.myGenders()
         return ResponseData.ok(data = GenderListResponse(my))
     }
 
     @PutMapping("/my")
     fun setMy(@RequestBody @Valid request: SetMyGenderRequest): ResponseEntity<ResponseEmpty> {
-        genderService.setGenders(request.genderIds)
+        genderService.setMemberGenders(request.genderIds)
 
         return ResponseEmpty.ok()
     }
