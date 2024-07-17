@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/gender")
+@RequestMapping("/genders")
 class GenderController(
     private val genderService: GenderService
 ) {
-    @GetMapping("/list")
+    @GetMapping
     fun getAll(): ResponseEntity<ResponseData<GenderListResponse>> {
         val all = genderService.all()
         return ResponseData.ok(data = GenderListResponse(all))
