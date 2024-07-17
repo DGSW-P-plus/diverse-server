@@ -2,7 +2,7 @@ package dev.jombi.diverse.core.chat.room.service
 
 import dev.jombi.diverse.business.chat.room.service.ChatRoomService
 import dev.jombi.diverse.common.exception.CustomException
-import dev.jombi.diverse.business.chat.room.dto.ChatRoom
+import dev.jombi.diverse.business.chat.room.dto.ChatRoomDto
 import dev.jombi.diverse.core.chat.room.domain.entity.ChatRoomEntity
 import dev.jombi.diverse.core.chat.room.exception.ChatRoomExceptionDetails
 import dev.jombi.diverse.core.chat.room.mapper.ChatRoomMapper
@@ -24,7 +24,7 @@ class ChatRoomServiceImpl(
 ): ChatRoomService {
 
     @Transactional
-    override fun getRooms(): List<ChatRoom> {
+    override fun getRooms(): List<ChatRoomDto> {
         val member = memberHolder.get()
 
         val rooms = chatRoomRepository.findAllByMember1OrMember2(member, member)
@@ -37,7 +37,7 @@ class ChatRoomServiceImpl(
     }
 
     @Transactional
-    override fun getRoom(roomId: UUID): ChatRoom {
+    override fun getRoom(roomId: UUID): ChatRoomDto {
         val member = memberHolder.get()
 
         val room = chatRoomRepository.findByIdOrNull(roomId) ?: throw CustomException(ChatRoomExceptionDetails.CHAT_ROOM_NOT_FOUND)
