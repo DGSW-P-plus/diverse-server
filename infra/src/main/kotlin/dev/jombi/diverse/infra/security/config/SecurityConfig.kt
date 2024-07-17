@@ -34,7 +34,7 @@ class SecurityConfig(
                     .requestMatchers("/sub/**").permitAll()
                     .requestMatchers("/pub/**").permitAll()
                     .requestMatchers("/static/**").permitAll()
-//                    .requestMatchers("/**").permitAll()
+                    .requestMatchers("/**").permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterAt(authFilter, UsernamePasswordAuthenticationFilter::class.java)

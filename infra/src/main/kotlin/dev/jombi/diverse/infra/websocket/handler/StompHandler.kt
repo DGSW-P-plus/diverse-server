@@ -27,19 +27,10 @@ class StompHandler(
 
         when (accessor.messageType) {
             SimpMessageType.CONNECT -> {
-                println("TEST 2")
                 val token = accessor.getFirstNativeHeader("Authorization")
                     ?: return null
-
-                println("TEST 3")
-
                 val auth = authManager.authenticate(JwtAuthToken(token))
-
-                println("TEST 4")
-
                 val member = (auth.principal as MemberDetails).member
-
-                println("TEST 5")
 
                 SimpAttributesContextHolder.currentAttributes().setAttribute("userId", member.id.id)
 

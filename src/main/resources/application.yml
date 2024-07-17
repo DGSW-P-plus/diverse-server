@@ -35,6 +35,6 @@ app:
     access-token-expiration: 86400000
     refresh-token-expiration: 172800000
     issuer: ${JWT_ISSUER}
-logging:
-  level:
-    root: debug
+#logging:
+#  level:
+#    root: debug

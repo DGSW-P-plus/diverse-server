@@ -4,7 +4,9 @@ import dev.jombi.diverse.business.chat.message.dto.ChatMessageDto
 import dev.jombi.diverse.business.chat.message.dto.SendMessageDto
 import dev.jombi.diverse.business.chat.message.service.ChatMessageService
 import dev.jombi.diverse.common.exception.CustomException
+import dev.jombi.diverse.core.chat.message.adapter.TemplateAdapter
 import dev.jombi.diverse.core.chat.message.domain.document.ChatMessageDocument
+import dev.jombi.diverse.core.chat.message.exception.ChatMessageExceptionDetails
 import dev.jombi.diverse.core.chat.message.repository.ChatMessageRepository
 import dev.jombi.diverse.core.chat.room.exception.ChatRoomExceptionDetails
 import dev.jombi.diverse.core.chat.room.repository.ChatRoomRepository
@@ -19,11 +21,10 @@ import java.util.*
 @Service
 @Transactional
 class ChatMessageServiceImpl(
-    private val rabbitTemplate: RabbitTemplate,
     private val chatMessageRepository: ChatMessageRepository,
     private val memberHolder: MemberHolder,
     private val chatRoomRepository: ChatRoomRepository,
-//    private val template: SimpMessageSendingOperations
+    private val templateAdapter: TemplateAdapter
 ) : ChatMessageService {
     @Transactional(readOnly = true)
     override fun getMessages(roomId: UUID): List<ChatMessageDto> {
@@ -59,36 +60,12 @@ class ChatMessageServiceImpl(
     }
 
     override fun sendAndSaveMessage(userId: Long, dto: SendMessageDto) {
-        rabbitTemplate.convertAndSend("chat.exchange", "room.${dto.roomId}", saveMessage(userId, dto))
-//        template.convertAndSend("/sub/chat/rooms/${dto.roomId}", saveMessage(userId, dto))
-    }
+        if (dto.message == null || dto.message!!.isBlank()) {
+            throw CustomException(ChatMessageExceptionDetails.CHAT_MESSAGE_EMPTY)
+        }
 
-//    override fun sendEventMessage(message: MessageEventDto, roomId: String) {
-//        rabbitTemplate.convertAndSend(
-//            "chat.exchange", "room.${roomId}", message
-//        )
-//    }
+        val message = saveMessage(userId, dto)
 
-    override fun subscribe(userId: Long, roomId: UUID) {
-//        if (roomId != "message" && roomId.length == 24) {
-//
-//            sendEventMessage(
-//                message = MessageEventDto(
-//                    userId = userId,
-//                    type = Type.SUB
-//                ),
-//                roomId = roomId
-//            )
-//            roomInfoRepository.save(
-//                RoomInfoEntity(
-//                    userId = userId,
-//                    roomId = roomId
-//                )
-//            )
-//        }
-    }
-
-    override fun unsubscribe(userId: Long) {
-//        roomInfoRepository.deleteById(userId)
+        templateAdapter.convertAndSend(message)
     }
 }
