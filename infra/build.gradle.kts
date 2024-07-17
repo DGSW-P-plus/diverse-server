@@ -3,7 +3,7 @@ dependencies {
 
     api("org.springframework.boot:spring-boot-starter-amqp")
     api("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
-    implementation("io.projectreactor.netty:reactor-netty")
+    implementation("org.springframework.boot:spring-boot-starter-reactor-netty")
 
     implementation("com.querydsl","querydsl-jpa", classifier = "jakarta")
 
