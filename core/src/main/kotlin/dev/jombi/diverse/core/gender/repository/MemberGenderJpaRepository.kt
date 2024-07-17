@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface MemberGenderJpaRepository : JpaRepository<MemberGender, MemberGenderKey> {
-    fun findMemberGendersByMember(member: Member): List<MemberGender>
+    fun findAllByMemberIs(member: Member): List<MemberGender>
 }

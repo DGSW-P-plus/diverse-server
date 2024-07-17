@@ -28,7 +28,7 @@ class GenderServiceImpl(
     @Transactional(rollbackOn = [Exception::class])
     override fun setGenders(set: List<Long>) {
         val member = holder.get()
-        val holding = memberGenderJpaRepository.findMemberGendersByMember(member)
+        val holding = memberGenderJpaRepository.findAllByMemberIs(member)
         memberGenderJpaRepository.deleteAllInBatch(holding)
 
         val gender = genderJpaRepository.findAllById(set)
