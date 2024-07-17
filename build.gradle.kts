@@ -1,13 +1,17 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
-    kotlin("jvm") version "1.9.24"
+    val kotlinVersion = "2.0.0"
+    kotlin("jvm") version kotlinVersion
+
+    kotlin("kapt") version kotlinVersion
+    kotlin("plugin.jpa") version kotlinVersion
+    kotlin("plugin.spring") version kotlinVersion
+
+    application
 
     id("org.springframework.boot") version "3.3.1"
     id("io.spring.dependency-management") version "1.1.5"
-
-    kotlin("plugin.jpa") version "1.9.24"
-    kotlin("plugin.spring") version "1.9.24"
 }
 
 repositories {
@@ -34,6 +38,12 @@ allprojects {
                 entry("jjwt-impl")
                 entry("jjwt-jackson")
             }
+
+            dependencySet("com.querydsl:5.1.0") {
+                entry("querydsl-core")
+                entry("querydsl-jpa")
+                entry("querydsl-apt")
+            }
         }
     }
 
@@ -41,12 +51,16 @@ allprojects {
         mavenCentral()
     }
 
+    springBoot {
+        mainClass.set("dev.jombi.diverse.DiverseApplicationKt")
+    }
+
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlin {
             jvmToolchain(17)
             compilerOptions {
-                languageVersion.set(KotlinVersion.KOTLIN_1_9)
-                apiVersion.set(KotlinVersion.KOTLIN_1_9)
+                languageVersion.set(KotlinVersion.KOTLIN_2_0)
+                apiVersion.set(KotlinVersion.KOTLIN_2_0)
                 freeCompilerArgs.addAll("-Xjsr305=strict")
             }
         }
@@ -74,18 +88,17 @@ allprojects {
 
 subprojects {
     dependencies {
-        /// SPRING BOOT
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+        implementation("org.springframework.boot:spring-boot-starter-websocket")
         implementation("org.springframework.boot:spring-boot-starter-security")
         implementation("org.springframework.boot:spring-boot-starter-validation")
+
+        implementation("org.mapstruct:mapstruct:1.5.5.Final")
+        kapt("org.mapstruct:mapstruct-processor:1.5.5.Final")
     }
 }
 
 dependencies {
-    /*
-    runtimeOnly("com.h2database:h2")
-
-    */
-
     implementation(project(":api"))
     implementation(project(":business"))
     implementation(project(":core"))

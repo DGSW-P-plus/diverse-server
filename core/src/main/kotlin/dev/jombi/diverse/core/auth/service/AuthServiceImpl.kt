@@ -5,7 +5,7 @@ import dev.jombi.diverse.core.auth.extern.TokenGenerator
 import dev.jombi.diverse.business.auth.service.AuthService
 import dev.jombi.diverse.common.exception.CustomException
 import dev.jombi.diverse.core.auth.exception.AuthExceptionDetails
-import dev.jombi.diverse.core.member.entity.Member
+import dev.jombi.diverse.core.member.domain.entity.Member
 import dev.jombi.diverse.core.member.repository.MemberJpaRepository
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -20,31 +20,36 @@ class AuthServiceImpl(
     private val passwordEncoder: PasswordEncoder,
     private val tokenGenerator: TokenGenerator,
 ) : AuthService {
-    override fun authenticate(credential: String, password: String): TokenDto {
-        val token = UsernamePasswordAuthenticationToken(credential, password)
+    override fun login(username: String, password: String): TokenDto {
+        val token = UsernamePasswordAuthenticationToken(username, password)
 
         val auth = authenticationManager.authenticate(token)
         SecurityContextHolder.getContext().authentication = auth
 
-        val access = tokenGenerator.generateAccessToken()
-        val refresh = tokenGenerator.generateRefreshToken()
+        val accessToken = tokenGenerator.generateAccessToken()
+        val refreshToken = tokenGenerator.generateRefreshToken()
 
-        return TokenDto(access, refresh)
+        return TokenDto(accessToken, refreshToken)
     }
 
-    override fun createNewMember(name: String, credential: String, password: String): Long {
-        if (memberRepository.existsByCredential(credential))
-            throw CustomException(AuthExceptionDetails.USER_ALREADY_EXISTS, credential)
+    override fun signup(username: String, password: String, nickname: String): Long {
+        if (memberRepository.existsByUsername(username))
+            throw CustomException(AuthExceptionDetails.USER_ALREADY_EXISTS, username)
 
-        return memberRepository.save(Member(credential, passwordEncoder.encode(password), name))
-            .id.id
+        return memberRepository.save(
+            Member(
+            username = username,
+            password = passwordEncoder.encode(password),
+            nickname = nickname
+        )
+        ).id.id
     }
 
-    override fun getNewToken(refreshToken: String): TokenDto {
+    override fun refresh(refreshToken: String): TokenDto {
         val newAccessToken = tokenGenerator.refreshToNewToken(refreshToken)
         return TokenDto(
             newAccessToken,
-            refreshToken // no changes ;)
+            refreshToken
         )
     }
 }

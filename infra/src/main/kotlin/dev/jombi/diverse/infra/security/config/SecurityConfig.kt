@@ -1,7 +1,7 @@
 package dev.jombi.diverse.infra.security.config
 
-import dev.jombi.diverse.infra.exception.AuthExceptionHandleFilter
-import dev.jombi.diverse.infra.security.jwt.JwtAuthFilter
+import dev.jombi.diverse.infra.security.jwt.filter.JwtExceptionFilter
+import dev.jombi.diverse.infra.security.jwt.filter.JwtAuthenticationFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
@@ -15,8 +15,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val authFilter: JwtAuthFilter,
-    private val authExceptionFilter: AuthExceptionHandleFilter
+    private val authFilter: JwtAuthenticationFilter,
+    private val authExceptionFilter: JwtExceptionFilter
 ) {
 
     @Bean
@@ -28,11 +28,17 @@ class SecurityConfig(
             .sessionManagement { it.disable() }
             .authorizeHttpRequests {
                 it
+                    .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                     .requestMatchers("/auth/**").anonymous() // .permitAll()
+                    .requestMatchers("/ws").permitAll()
+                    .requestMatchers("/sub/**").permitAll()
+                    .requestMatchers("/pub/**").permitAll()
+                    .requestMatchers("/static/**").permitAll()
+                    .requestMatchers("/**").permitAll()
                     .anyRequest().authenticated()
             }
             .addFilterAt(authFilter, UsernamePasswordAuthenticationFilter::class.java)
-            .addFilterBefore(authExceptionFilter, JwtAuthFilter::class.java)
+            .addFilterBefore(authExceptionFilter, JwtAuthenticationFilter::class.java)
             .build()
     }
 

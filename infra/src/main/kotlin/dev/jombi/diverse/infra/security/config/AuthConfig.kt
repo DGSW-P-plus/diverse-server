@@ -1,6 +1,6 @@
 package dev.jombi.diverse.infra.security.config
 
-import dev.jombi.diverse.infra.security.providers.JwtProvider
+import dev.jombi.diverse.infra.security.jwt.provider.JwtProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
