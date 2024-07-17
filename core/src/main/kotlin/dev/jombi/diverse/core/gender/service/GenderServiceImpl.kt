@@ -30,7 +30,7 @@ class GenderServiceImpl(
     override fun setMemberGenders(set: List<Long>) {
         val member = holder.get()
         val holding = memberGenderJpaRepository.findAllByMemberIs(member)
-        memberGenderJpaRepository.deleteAllInBatch(holding)
+        memberGenderJpaRepository.deleteAll(holding)
 
         val gender = genderJpaRepository.findAllById(set)
             .map { MemberGender(it, member) }
