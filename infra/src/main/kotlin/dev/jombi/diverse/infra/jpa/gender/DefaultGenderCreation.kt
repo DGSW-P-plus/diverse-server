@@ -17,7 +17,7 @@ class DefaultGenderCreation(
                 "male.svg",
             ),
             Gender(
-                "여성ㅐ",
+                "여성",
                 "female.svg",
             ),
             Gender(
