@@ -1,6 +1,6 @@
 package dev.jombi.diverse.core.chat.room.domain.entity
 
-import dev.jombi.diverse.core.member.entity.Member
+import dev.jombi.diverse.core.member.domain.entity.Member
 import jakarta.persistence.*
 import java.util.*
 

@@ -1,4 +1,4 @@
-package dev.jombi.diverse.core.member.entity
+package dev.jombi.diverse.core.member.domain.entity
 
 import dev.jombi.diverse.core.common.entity.BaseIdTimeEntity
 import jakarta.persistence.Column
@@ -13,11 +13,11 @@ class Member(
     val password: String, // bcrypt
 
     @Column(nullable = false)
-    val nickname: String,
+    var nickname: String,
 
     @Column
-    val location: String? = null,
+    var location: String? = null,
 
     @Column(length = 512)
-    val bio: String? = null
+    var bio: String? = null
 ) : BaseIdTimeEntity()
