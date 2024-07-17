@@ -28,6 +28,7 @@ class WebSocketConfig(
         registry.setApplicationDestinationPrefixes("/pub")
         registry.enableStompBrokerRelay("/queue", "/topic", "/exchange", "/amq/queue")
             .setRelayHost(rabbitMQProperties.host)
+            .setRelayPort(rabbitMQProperties.port)
             .setVirtualHost("/")
     }
 
