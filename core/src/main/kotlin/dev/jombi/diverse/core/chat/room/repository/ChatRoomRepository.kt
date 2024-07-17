@@ -1,7 +1,7 @@
 package dev.jombi.diverse.core.chat.room.repository
 
 import dev.jombi.diverse.core.chat.room.domain.entity.ChatRoomEntity
-import dev.jombi.diverse.core.member.entity.Member
+import dev.jombi.diverse.core.member.domain.entity.Member
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 

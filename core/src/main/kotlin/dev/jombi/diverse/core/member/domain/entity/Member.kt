@@ -1,4 +1,4 @@
-package dev.jombi.diverse.core.member.entity
+package dev.jombi.diverse.core.member.domain.entity
 
 import dev.jombi.diverse.core.common.entity.BaseIdTimeEntity
 import jakarta.persistence.Column

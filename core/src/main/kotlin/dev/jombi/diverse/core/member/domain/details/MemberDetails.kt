@@ -1,6 +1,6 @@
-package dev.jombi.diverse.core.member.details
+package dev.jombi.diverse.core.member.domain.details
 
-import dev.jombi.diverse.core.member.entity.Member
+import dev.jombi.diverse.core.member.domain.entity.Member
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 

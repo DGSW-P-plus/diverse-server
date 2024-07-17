@@ -5,7 +5,7 @@ import dev.jombi.diverse.core.auth.extern.TokenGenerator
 import dev.jombi.diverse.business.auth.service.AuthService
 import dev.jombi.diverse.common.exception.CustomException
 import dev.jombi.diverse.core.auth.exception.AuthExceptionDetails
-import dev.jombi.diverse.core.member.entity.Member
+import dev.jombi.diverse.core.member.domain.entity.Member
 import dev.jombi.diverse.core.member.repository.MemberJpaRepository
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -36,11 +36,13 @@ class AuthServiceImpl(
         if (memberRepository.existsByUsername(username))
             throw CustomException(AuthExceptionDetails.USER_ALREADY_EXISTS, username)
 
-        return memberRepository.save(Member(
+        return memberRepository.save(
+            Member(
             username = username,
             password = passwordEncoder.encode(password),
             nickname = nickname
-        )).id.id
+        )
+        ).id.id
     }
 
     override fun refresh(refreshToken: String): TokenDto {
