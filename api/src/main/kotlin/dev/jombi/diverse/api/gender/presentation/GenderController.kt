@@ -1,5 +1,6 @@
 package dev.jombi.diverse.api.gender.presentation
 
+import dev.jombi.diverse.api.gender.dto.GenderDtoMapper
 import dev.jombi.diverse.api.gender.dto.request.SetMyGenderRequest
 import dev.jombi.diverse.api.gender.dto.response.GenderListResponse
 import dev.jombi.diverse.business.gender.service.GenderService
@@ -16,18 +17,19 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/genders")
 class GenderController(
-    private val genderService: GenderService
+    private val genderService: GenderService,
+    private val genderDtoMapper: GenderDtoMapper
 ) {
     @GetMapping
     fun getAll(): ResponseEntity<ResponseData<GenderListResponse>> {
         val all = genderService.getGenders()
-        return ResponseData.ok(data = GenderListResponse(all))
+        return ResponseData.ok(data = genderDtoMapper.convertToResponse(all))
     }
 
     @GetMapping("/my")
     fun getMy(): ResponseEntity<ResponseData<GenderListResponse>> {
         val my = genderService.myGenders()
-        return ResponseData.ok(data = GenderListResponse(my))
+        return ResponseData.ok(data = genderDtoMapper.convertToResponse(my))
     }
 
     @PutMapping("/my")

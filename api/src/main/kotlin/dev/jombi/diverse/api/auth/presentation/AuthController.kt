@@ -1,5 +1,6 @@
 package dev.jombi.diverse.api.auth.presentation
 
+import dev.jombi.diverse.api.auth.dto.AuthDtoMapper
 import dev.jombi.diverse.api.auth.dto.request.LoginRequest
 import dev.jombi.diverse.api.auth.dto.request.ReissueRequest
 import dev.jombi.diverse.api.auth.dto.request.SignUpRequest
@@ -19,28 +20,29 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/auth")
 class AuthController(
-    private val authService: AuthService
+    private val authService: AuthService,
+    private val authDtoMapper: AuthDtoMapper
 ) {
     @Operation(summary = "로그인")
     @PostMapping("/login")
     fun login(@RequestBody @Valid request: LoginRequest): ResponseEntity<ResponseData<TokenResponse>> {
         val dto = authService.login(request.username, request.password)
-        return ResponseData.ok(data = TokenResponse(dto.accessToken, dto.refreshToken))
+        return ResponseData.ok(data = authDtoMapper.convertToResponse(dto))
     }
 
     @Operation(summary = "회원가입")
     @PostMapping("/signup")
-    fun signup(@RequestBody @Valid request: SignUpRequest): ResponseEntity<ResponseData<TokenResponse>?> {
+    fun signup(@RequestBody @Valid request: SignUpRequest): ResponseEntity<ResponseData<TokenResponse>> {
         authService.signup(request.username, request.password, request.nickname)
 
         val dto = authService.login(request.username, request.password)
-        return ResponseData.ok(data = TokenResponse(dto.accessToken, dto.refreshToken))
+        return ResponseData.ok(data = authDtoMapper.convertToResponse(dto))
     }
 
     @Operation(summary = "토큰 재발급")
     @PostMapping("/reissue")
     fun reissue(@RequestBody @Valid request: ReissueRequest): ResponseEntity<ResponseData<TokenResponse>> {
         val dto = authService.refresh(request.refreshToken)
-        return ResponseData.ok(data = TokenResponse(dto.accessToken, dto.refreshToken))
+        return ResponseData.ok(data = authDtoMapper.convertToResponse(dto))
     }
 }
