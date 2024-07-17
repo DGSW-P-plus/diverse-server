@@ -13,11 +13,11 @@ class DefaultGenderCreation(
     fun addDefaultGenders() {
         val gen = listOf(
             Gender(
-                "남자",
+                "남성",
                 "male.svg",
             ),
             Gender(
-                "여자",
+                "여성ㅐ",
                 "female.svg",
             ),
             Gender(
