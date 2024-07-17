@@ -16,14 +16,14 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
+@Transactional
 class ChatRoomServiceImpl(
     private val memberHolder: MemberHolder,
     private val chatRoomRepository: ChatRoomRepository,
     private val chatRoomMapper: ChatRoomMapper,
     private val memberJpaRepository: MemberJpaRepository
 ): ChatRoomService {
-
-    @Transactional
+    @Transactional(readOnly = true)
     override fun getRooms(): List<ChatRoomDto> {
         val member = memberHolder.get()
 
@@ -36,7 +36,7 @@ class ChatRoomServiceImpl(
 
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     override fun getRoom(roomId: UUID): ChatRoomDto {
         val member = memberHolder.get()
 
@@ -47,7 +47,6 @@ class ChatRoomServiceImpl(
         return chatRoomMapper.toDomain(room)
     }
 
-    @Transactional
     override fun createRoom(targetId: Long): UUID {
         val member = memberHolder.get()
 
