@@ -1,6 +1,6 @@
-package dev.jombi.diverse.api.chat.presentation
+package dev.jombi.diverse.api.chat.room.presentation
 
-import dev.jombi.diverse.api.chat.dto.request.CreateRoomRequest
+import dev.jombi.diverse.api.chat.room.dto.request.CreateChatRoomRequest
 import dev.jombi.diverse.business.chat.room.service.ChatRoomService
 import dev.jombi.diverse.common.response.ResponseData
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 
 @RestController
-@RequestMapping("/chat-room")
+@RequestMapping("/chat/rooms")
 class ChatRoomController(
     private val chatRoomService: ChatRoomService
 ) {
     @PostMapping
-    fun createRoom(@RequestBody request: CreateRoomRequest) = ResponseData.created(data = chatRoomService.createRoom(request.targetId), message = "채팅 방 생성 완료")
+    fun createRoom(@RequestBody request: CreateChatRoomRequest) = ResponseData.created(data = chatRoomService.createRoom(request.targetId), message = "채팅 방 생성 완료")
 
     @GetMapping
     fun getRooms() = ResponseData.ok(data = chatRoomService.getRooms(), message = "채팅방 불러오기 완료")
