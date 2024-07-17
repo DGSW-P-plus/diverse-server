@@ -11,6 +11,7 @@ class MemberSNS(
     @JoinColumn(name = "member_id", referencedColumnName = "id")
     val member: Member,
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     val type: SNSType,
 
