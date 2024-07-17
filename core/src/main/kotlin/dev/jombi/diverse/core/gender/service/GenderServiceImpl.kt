@@ -7,8 +7,8 @@ import dev.jombi.diverse.core.gender.repository.GenderJpaRepository
 import dev.jombi.diverse.core.gender.repository.MemberGenderJpaRepository
 import dev.jombi.diverse.core.gender.repository.MemberGenderQueryRepository
 import dev.jombi.diverse.core.member.MemberHolder
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class GenderServiceImpl(
@@ -25,8 +25,8 @@ class GenderServiceImpl(
         return memberGenderQueryRepository.findGenderByUserId(holder.get().id.id).map { it.mapDto() }
     }
 
-    @Transactional(rollbackOn = [Exception::class])
-    override fun setGenders(set: List<Long>) {
+    @Transactional(rollbackFor = [Exception::class])
+    override fun setMemberGenders(set: List<Long>) {
         val member = holder.get()
         val holding = memberGenderJpaRepository.findAllByMemberIs(member)
         memberGenderJpaRepository.deleteAllInBatch(holding)
