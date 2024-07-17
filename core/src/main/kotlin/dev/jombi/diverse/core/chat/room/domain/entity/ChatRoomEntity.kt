@@ -5,7 +5,7 @@ import jakarta.persistence.*
 import java.util.*
 
 @Entity
-@Table(name = "chat_room")
+@Table(name = "chat_rooms")
 class ChatRoomEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
