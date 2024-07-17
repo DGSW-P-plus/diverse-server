@@ -12,6 +12,7 @@ class MemberServiceImpl(
     override fun me(): MemberDto {
         val member = memberHolder.get()
         return MemberDto(
+            id = member.id.id,
             username = member.username,
             nickname = member.nickname,
             location = member.location,
