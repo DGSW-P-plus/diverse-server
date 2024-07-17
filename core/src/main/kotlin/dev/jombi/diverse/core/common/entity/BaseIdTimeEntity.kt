@@ -11,8 +11,10 @@ abstract class BaseIdTimeEntity(
     private val _createdAt: LocalDateTime? = null,
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    private val _updatedAt: LocalDateTime? = null
-) : BaseIdEntity() {
+    private val _updatedAt: LocalDateTime? = null,
+
+    id: FetchableId = FetchableId.NULL
+) : BaseIdEntity(id) {
     val createdAt get() = _createdAt
     val updatedAt get() = _updatedAt
 }

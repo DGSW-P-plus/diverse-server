@@ -1,6 +1,7 @@
 package dev.jombi.diverse.core.member.domain.entity
 
 import dev.jombi.diverse.core.common.entity.BaseIdTimeEntity
+import dev.jombi.diverse.core.common.entity.FetchableId
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 
@@ -19,5 +20,7 @@ class Member(
     var location: String? = null,
 
     @Column(length = 512)
-    var bio: String? = null
-) : BaseIdTimeEntity()
+    var bio: String? = null,
+
+    id: FetchableId = FetchableId.NULL,
+) : BaseIdTimeEntity(id = id)
