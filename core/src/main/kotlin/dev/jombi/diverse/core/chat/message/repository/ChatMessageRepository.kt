@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import java.util.UUID
 
 interface ChatMessageRepository: MongoRepository<ChatMessageDocument, Long> {
-    fun findByRoomId(roomId: UUID): List<ChatMessageDocument>
+    fun findAllByRoomId(roomId: UUID): List<ChatMessageDocument>
 }

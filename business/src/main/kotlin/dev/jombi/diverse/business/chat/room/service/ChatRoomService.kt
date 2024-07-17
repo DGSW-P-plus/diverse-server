@@ -1,6 +1,5 @@
 package dev.jombi.diverse.business.chat.room.service
 
-import dev.jombi.diverse.business.chat.message.dto.ChatMessageDto
 import dev.jombi.diverse.business.chat.room.dto.ChatRoomDto
 import java.util.UUID
 

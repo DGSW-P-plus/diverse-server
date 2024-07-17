@@ -32,9 +32,9 @@ class ChatMessageServiceImpl(
 
         if (room.member1.id != member.id && room.member2.id != member.id) throw CustomException(ChatRoomExceptionDetails.CHAT_ROOM_NOT_ALLOWED)
 
-        val messages = chatMessageRepository.findByRoomId(room.id!!)
+        val messages = chatMessageRepository.findAllByRoomId(room.id!!)
 
-        return messages.map { ChatMessageDto(it.roomId, it.message, it.userId) }
+        return messages.map { ChatMessageDto(it.roomId, it.message, it.userId, it.createdAt!!, it.updatedAt!!) }
     }
 
     override fun saveMessage(userId: Long, dto: SendMessageDto): ChatMessageDto {
@@ -48,7 +48,9 @@ class ChatMessageServiceImpl(
         return ChatMessageDto(
             roomId = saved.roomId,
             message = saved.message,
-            userId = saved.userId
+            userId = saved.userId,
+            createdAt = saved.createdAt!!,
+            updatedAt = saved.updatedAt!!
         )
     }
 
