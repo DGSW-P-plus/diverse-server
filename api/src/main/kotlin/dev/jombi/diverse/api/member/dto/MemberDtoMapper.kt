@@ -1,7 +1,9 @@
 package dev.jombi.diverse.api.member.dto
 
+import dev.jombi.diverse.api.member.dto.request.MemberEditOptionalRequest
 import dev.jombi.diverse.api.member.dto.response.MemberInfoResponse
 import dev.jombi.diverse.business.member.dto.MemberDto
+import dev.jombi.diverse.business.member.dto.MemberOptionalDto
 import org.mapstruct.Mapper
 import org.mapstruct.factory.Mappers
 import org.springframework.context.annotation.Bean
@@ -16,4 +18,5 @@ interface MemberDtoMapper {
     }
 
     fun convertToResponse(request: MemberDto): MemberInfoResponse
+    fun convertToDto(request: MemberEditOptionalRequest): MemberOptionalDto
 }

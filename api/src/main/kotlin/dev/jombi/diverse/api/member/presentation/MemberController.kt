@@ -5,6 +5,7 @@ import dev.jombi.diverse.api.member.dto.request.MemberEditOptionalRequest
 import dev.jombi.diverse.api.member.dto.response.MemberInfoResponse
 import dev.jombi.diverse.business.member.service.MemberService
 import dev.jombi.diverse.common.response.ResponseData
+import dev.jombi.diverse.common.response.ResponseEmpty
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
@@ -29,7 +30,8 @@ class MemberController(
     }
 
     @PatchMapping("me")
-    fun editMyInfo(@RequestBody @Valid request: MemberEditOptionalRequest) {
-//        memberService.editMyInfo()
+    fun editMyInfo(@RequestBody @Valid request: MemberEditOptionalRequest): ResponseEntity<ResponseEmpty> {
+        memberService.editMyInfo(memberDtoMapper.convertToDto(request))
+        return ResponseEmpty.ok()
     }
 }

@@ -13,11 +13,11 @@ class Member(
     val password: String, // bcrypt
 
     @Column(nullable = false)
-    val nickname: String,
+    var nickname: String,
 
     @Column
-    val location: String? = null,
+    var location: String? = null,
 
     @Column(length = 512)
-    val bio: String? = null
+    var bio: String? = null
 ) : BaseIdTimeEntity()
